@@ -19,7 +19,7 @@ export BUILDPACK_DIR=`dirname $(readlink -f ${BASH_SOURCE%/*})`
 #output_dir=$(mktemp -d -t supply_XXX)
 
 echo "---------------------------------------"
-echo "BUILDPACK_DIR: BUILDPACK_DIR"
+echo "BUILDPACK_DIR: $BUILDPACK_DIR"
 #echo "output_dir: output_dir"
 
 echo "---------------------------------------"
