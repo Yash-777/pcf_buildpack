@@ -103,7 +103,7 @@ OR 4 (detect|release|supply|finalize) of following 5 scripts.
 
 Only one buildpack can be a final and it has commands to start the app.
  
-Environment vars fr BP can be supplied in a script under profile.d dir in root folder of app 
+Environment vars for a BP can be supplied in a script under profile.d dir in root folder of app 
 
 Web type commands run as bash -c \<COMMAND\> 
 

@@ -1,0 +1,19 @@
+#!bin/bash
+
+BUILD_DIR=$1
+
+propfiles=`find . -name \*.properties | wc -l`
+echo "---------------------------------------"
+echo "Detect Arguments: build: " + $BUILD_DIR
+echo
+echo "Project has $propfiles property files."
+echo "---------------------------------------"
+
+
+if [ $propfiles -gt 0 ]
+then
+    "An application with properties files is detected."
+    exit 0
+fi
+
+exit 1
