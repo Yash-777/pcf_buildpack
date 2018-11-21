@@ -3,7 +3,7 @@
 BUILD_DIR=$1
 
 echo "---------------------------------------"
-echo "Finalize called with Arguments: "
+echo "Release called with Arguments: "
 echo "---------------------------------------"
 echo "BUILD_DIR: $BUILD_DIR"
 echo "---------------------------------------"
