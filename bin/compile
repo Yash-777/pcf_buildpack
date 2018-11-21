@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 echo "If you are creating anew buildpack DO NOT use compile script. Use of compile is deprecated."
 
