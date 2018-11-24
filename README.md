@@ -72,8 +72,8 @@ Above is also an ordered list in  which the CF will try to find a match using de
 ## Buildpack v/s Docker approach 
 
 CF supports both approaches for an application deployment 
--   First where developer creates a container ready with an application and all its run time and dependencies prepackaged and reday to deploy.
--   Second where developer only supplies an application to deploy and CF creates a container.
+-   First where developer creates a container ready with an application and all its run time and dependencies prepackaged and ready to deploy.
+-   Second where developer supplies only an application to deploy and CF creates a container.
 
 However there are few trade-offs between the two approaches as described below,
 
@@ -101,15 +101,16 @@ OR 4 (detect|release|supply|finalize) of following 5 scripts.
 |bin/release  | Provides feedback and metadata to CF indicating how the app is to be executed. This script is part of build pack run as final or the last buildpack in order. |only one arg 'build' dir|Generates output YAML in following format, default_process_type indicating type of app being run and start command for the app.Currently only web type apps are supported. |All output is sent to STDOUT and shown to user through CF CLI.|
 |bin/compile  | Deprecated alternative for supply and finalize going forward from release (TBD). This script is part of final buildpack if present.|takes only two args 'buid' and 'cache'| Does not support multi buildpacks. Does function of both supply and finalize.|All output is sent to STDOUT and shown to user through CF CLI.|
 
-Only one buildpack can be a final and it has commands to start the app.
+Only one buildpack can be a final and it has commands to start the app. If more than one BP has finalize and release scripts 
+then those from the last one in order will take precedence.
  
-Environment vars for a BP can be supplied in a script under profile.d dir in root folder of app 
+Environment vars for a BP can be supplied in a script under profile.d dir in root folder of an app.
 
-Web type commands run as bash -c \<COMMAND\> 
+for a "Web" type execution ( the only supported execution type at the time of this writing), commands run as bash -c \<COMMAND\> 
 
 ## Accessing buildpacks
 
-Access it 3 ways which present trade-offs between control/governance and convenience.
+Buildpacks can be accessed in 3 different ways, which present a few trade-offs between control/governance and convenience.
 
 1. Online : where BP and dependencies are both remote.
 
@@ -120,10 +121,13 @@ Access it 3 ways which present trade-offs between control/governance and conveni
 
 ## Using multiple buildpacks during deployment
 
-Following commad shows how a cf cli (CLI v6.38 or later) is used to push an app with multiple BPs
+Following command shows how a cf cli (CLI v6.38 or later) is used to push an app with multiple BPs
 
 ```aidl
+
 cf push YOUR-APP -b BUILDPACK-NAME-1 -b BUILDPACK-NAME-2 ... -b FINAL-BUILDPACK-NAME
+
+e.g. cf push -b https://github.com/mrisbud/pcf_buildpack -b java_buildpack_offline -f manifests/manifest.sb.yml
 
 ```
 
