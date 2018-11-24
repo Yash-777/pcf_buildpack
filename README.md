@@ -1,7 +1,7 @@
 # pcf_buildpack
 
 Buildpack is a mechanism  used by cloud foundry (CF) to create a droplet for a standalone application.
-CF droplet is a binary artifact that contains the application to be deployed and all its dependencies.
+CF droplet is a binary artifact that contains an application to be deployed and all its dependencies.
 
 This repository provides a quick introduction to buildpacks and sample code showing implementation of a custom buildpack.
 
@@ -71,9 +71,9 @@ Above is also an ordered list in  which the CF will try to find a match using de
 
 ## Buildpack v/s Docker approach 
 
-CF supports both approaches to application deployment 
--   First where developer creates a container ready with application and all its run time and dependencies prepackaged and reay to deploy.
--   Second where developer only supplies and application to deploy and CF creates a container.
+CF supports both approaches for an application deployment 
+-   First where developer creates a container ready with an application and all its run time and dependencies prepackaged and reday to deploy.
+-   Second where developer only supplies an application to deploy and CF creates a container.
 
 However there are few trade-offs between the two approaches as described below,
 
@@ -127,6 +127,38 @@ cf push YOUR-APP -b BUILDPACK-NAME-1 -b BUILDPACK-NAME-2 ... -b FINAL-BUILDPACK-
 
 ```
 
+It can be also done through a manifest.yml as below
+
+```aidl
+
+---
+applications:
+- name: my_supercool_app
+  memory: 1G
+  instances: 1
+  path: ../target/my_supercool_app-1.0.0.war
+  buildpacks:
+   - https://github.com/mrisbud/pcf_buildpack
+   - java_buildpack_offline
+  timeout: 180
+
+  env:
+    JAVA_OPTS: "-Dweblogic.env=dev -Denv=dev"
+    JBP_CONFIG_APP_DYNAMICS_AGENT: '{default_application_name: "my_supercool_app", default_tier_name: "my_app_tier"}'
+
+  services:
+  - appdynamics-agent
+  
+```
+
+##### Note
+
+This [Link](https://docs.cloudfoundry.org/buildpacks/custom.html) 
+provides information on buildpack_packager for 
+packaging your custom buildpacks for deployment to cloud foundry.
+In cached mode, the packager downloads and adds dependencies as described in the manifest.
+Once packaged the resulting .zip file can be used locally, or shared online. 
+Users can then specify the buildpack with the -b option when they push apps.
 
 ## Useful links
 
@@ -139,4 +171,17 @@ cf push YOUR-APP -b BUILDPACK-NAME-1 -b BUILDPACK-NAME-2 ... -b FINAL-BUILDPACK-
 - https://docs.cloudfoundry.org/buildpacks/understand-buildpacks.html#interactions
 
 ## Code sample 
-  
+
+Code sample is in bin dir of this repo. All 5 sample scripts are included as an example even though only a few will get invoked depending on the situation.
+
+E.g. 
+
+detect will not ever get called unless,
+ 
+ - this buildpack gets packaged and gets added to CF so that it shows up in buildpaks list with "cf buildpacks" command as above and
+ - a user does not specify any buildpack during deployment.
+ 
+finalize and release will not be called unless this BP is specified as final BP.
+
+Also note how the cmd to run an app being deployed is specified as part of web: section of a .yaml output from the  release script.
+In this case run cmd specified is just "ls" which does not actually run anything as this is only a sample buildpack.

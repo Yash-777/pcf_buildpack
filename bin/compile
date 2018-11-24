@@ -7,7 +7,7 @@ set -euo pipefail
 BUILD_DIR=$1
 CACHE_DIR=$2
 
-echo "Compile was alled with : Build: "  + $BUILD_DIR + ":" + " Cache: " + $CACHE_DIR
+echo "Compile was called with : Build: "  + $BUILD_DIR + ":" + " Cache: " + $CACHE_DIR
 
 #export BUILDPACK_DIR=`dirname $(readlink -f ${BASH_SOURCE%/*})`
 #export DEPS_DIR="$BUILD_DIR/.cloudfoundry"
