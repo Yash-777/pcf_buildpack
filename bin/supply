@@ -23,3 +23,13 @@ echo "BUILDPACK_DIR: $BUILDPACK_DIR"
 #echo "output_dir: output_dir"
 
 echo "---------------------------------------"
+
+echo "--- $BUILD_DIR ------------------------"
+ls -R  $BUILD_DIR
+echo "--- $CACHE_DIR ------------------------"
+ls -R  $CACHE_DIR
+echo "--- $DEPS_DIR  ------------------------"
+ls -R $DEPS_DIR
+echo "--- $DEPS_IDX  ------------------------"
+ls -R $DEPS_IDX
+echo "---------------------------------------"
