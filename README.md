@@ -121,7 +121,9 @@ Buildpacks can be accessed in 3 different ways, which present a few trade-offs b
 
 ## Using multiple buildpacks during deployment
 
-Following command shows how a cf cli (CLI v6.38 or later) is used to push an app with multiple BPs
+Following command shows how a cf cli (CLI v6.38 or later) is used to push an app with multiple BPs.
+The last one in the list is considered final and finalize and release scripts from that BP are executed to 
+start the app being deployed and those if present in other BPs are ignored.
 
 ```aidl
 
